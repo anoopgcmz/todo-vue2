@@ -46,6 +46,8 @@ export default {
         tasks.push(newTask);
         this.$emit('update-tasks', tasks);
         this.clearForm();
+      }else{
+        alert('Please enter a task description');
       }
     },
     updateTask() {
