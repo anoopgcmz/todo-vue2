@@ -1,28 +1,54 @@
+<!-- App.vue -->
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="app">
+    <TaskManager :selectedTask="selectedTask" @update-tasks="updateTasksList" @clear-selection="clearSelection" />
+    <TaskList :tasks="tasks" @update-tasks="updateTasksList" @clear-all="clearAllTasks" @edit-task="editTask" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TaskManager from './components/TaskManager.vue';
+import TaskList from './components/TaskList.vue';
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    TaskManager,
+    TaskList
+  },
+  data() {
+    return {
+      tasks: JSON.parse(localStorage.getItem('tasks')) || [],
+      selectedTask: null // Track selected task for editing
+    };
+  },
+  methods: {
+    updateTasksList(tasks) {
+      this.tasks = tasks;
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    },
+    clearAllTasks() {
+      this.tasks = [];
+      localStorage.removeItem('tasks');
+    },
+    editTask(task) {
+      this.selectedTask = task;
+    },
+    clearSelection() {
+      this.selectedTask = null;
+    }
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  margin: 0 auto; /* Center horizontally */
+  width: 50%; /* Set width to 50% */
 }
+
 </style>
