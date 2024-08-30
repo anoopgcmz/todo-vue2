@@ -59,6 +59,7 @@ export default {
           tasks[taskIndex].priority = this.priority;
           this.$emit('update-tasks', tasks);
           this.clearForm();
+          this.$emit('clear-selection'); 
         }
       }
     },
